@@ -107,7 +107,19 @@ maker = Maker(
             prompt="AWS CodeArtifact domain name",
         ),
         Parameter(
+            selector=["/esc/r/", "esc"],
+            name="aws_codeartifact_domain",
+            default="your_aws_codeartifact_domain",
+            prompt="AWS CodeArtifact domain name",
+        ),
+        Parameter(
             selector=['aws_codeartifact_repository = "esc-python"', "esc-python"],
+            name="aws_codeartifact_repository",
+            default="your_aws_codeartifact_repository",
+            prompt="AWS CodeArtifact Python repository name",
+        ),
+        Parameter(
+            selector=["esc-python/p/pypi/", "esc-python"],
             name="aws_codeartifact_repository",
             default="your_aws_codeartifact_repository",
             prompt="AWS CodeArtifact Python repository name",
