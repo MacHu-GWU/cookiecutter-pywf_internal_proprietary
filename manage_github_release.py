@@ -222,7 +222,7 @@ if __name__ == "__main__":
     manager = GitHubReleaseManager(
         version="0.1.1",
         github_account="MacHu-GWU",
-        github_repo_name="cookiecutter-pywf_open_source",
+        github_repo_name="cookiecutter-pywf_internal_proprietary",
         github_token_name="sanhe-dev",
     )
     manager.update_release()
