@@ -121,5 +121,9 @@ release: ## Create Github Release using current version
 	~/.pyenv/shims/python ./bin/s05_4_create_release.py
 
 
-setup-codecov: ## Setup Codecov Upload token in GitHub Action Secrets
+setup-codecov: ## Setup Codecov Upload Token in GitHub Action Secrets
 	~/.pyenv/shims/python ./bin/s06_1_setup_codecov.py
+
+
+setup-cloudflare-token: ## Setup Cloudflare Pages Upload Token in GitHub Action Secrets
+	./.venv/bin/python ./bin/s06_2_setup_cloudflare_pages_upload_token_on_github.py
