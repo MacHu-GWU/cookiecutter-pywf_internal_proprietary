@@ -31,7 +31,7 @@
     :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/issues
 
 .. image:: https://img.shields.io/badge/Link-Download-blue.svg
-    :target: https://pypi.org/pypi/{{ cookiecutter.package_name | slugify }}#files
+    :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/releases
 
 
 Welcome to ``{{ cookiecutter.package_name }}`` Documentation
