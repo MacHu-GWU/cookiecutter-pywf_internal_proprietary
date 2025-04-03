@@ -1,17 +1,8 @@
 .. image:: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/actions/workflows/main.yml/badge.svg
     :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/actions?query=workflow:CI
 
-.. image:: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/branch/main/graph/badge.svg
+.. .. image:: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project
-
-.. image:: https://img.shields.io/pypi/v/{{ cookiecutter.package_name | slugify }}.svg
-    :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name | slugify }}
-
-.. image:: https://img.shields.io/pypi/l/{{ cookiecutter.package_name | slugify }}.svg
-    :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name | slugify }}
-
-.. image:: https://img.shields.io/pypi/pyversions/{{ cookiecutter.package_name | slugify }}.svg
-    :target: https://pypi.python.org/pypi/{{ cookiecutter.package_name | slugify }}
 
 .. image:: https://img.shields.io/badge/Release_History!--None.svg?style=social
     :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/blob/main/release-history.rst

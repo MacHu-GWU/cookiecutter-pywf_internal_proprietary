@@ -155,7 +155,6 @@ maker = Maker(
         # file
         ".coverage",  # Coverage data
         ".pyc",  # Compiled Python files
-        "LICENSE.txt",  # License file, we will generate this later
     ],
     # Files that should be copied without rendering (processing)
     # Useful for files that contain syntax that conflicts with Jinja2
