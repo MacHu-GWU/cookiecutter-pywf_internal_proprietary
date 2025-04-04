@@ -153,7 +153,7 @@ aws_codeartifact_repository = "{{ cookiecutter.aws_codeartifact_repository }}"
 # leave empty string "" if you don't use it
 doc_host_aws_profile = "{{ cookiecutter.doc_host_aws_profile }}"
 # The Aws S3 bucket you use to store you document files
-doc_host_s3_bucket = "esc-app-devops-{{ cookiecutter.aws_region }}-doc-host"
+doc_host_s3_bucket = "{{ cookiecutter.doc_host_s3_bucket }}"
 # CloudFlare account alias, it is an alias you made up for your account, and we need this to locate the token file
 cloudflare_account_alias = "{{ cookiecutter.cloudflare_account_alias }}"
 # Create CloudFlare User API token in https://dash.cloudflare.com/profile/api-tokens
@@ -165,8 +165,8 @@ cloudflare_pages_token_name = "{{ cookiecutter.token_name }}"
 
 # Read: https://python-poetry.org/docs/repositories/
 [[tool.poetry.source]]
-name = "esc-python"
-url = "https://esc-{{ cookiecutter.aws_account_id }}.d.codeartifact.{{ cookiecutter.aws_region }}.amazonaws.com/pypi/esc-python/simple/"
+name = "{{ cookiecutter.aws_codeartifact_domain }}"
+url = "https://{{ cookiecutter.aws_codeartifact_domain }}-{{ cookiecutter.aws_account_id }}.d.codeartifact.{{ cookiecutter.aws_region }}.amazonaws.com/pypi/{{ cookiecutter.aws_codeartifact_repository }}/simple/"
 priority = "supplemental"
 
 [build-system] # Read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#declaring-the-build-backend

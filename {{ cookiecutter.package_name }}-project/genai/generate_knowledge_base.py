@@ -34,6 +34,7 @@ gh_pipeline = GitHubPipeline(
         "docs/source/**/index.rst",
         "docs/source/**/*.py",
         "bin/**/*.py",
+        "bin/README.rst",
         ".github/workflows/*.yml",
         "README.rst",
         "Makefile",
