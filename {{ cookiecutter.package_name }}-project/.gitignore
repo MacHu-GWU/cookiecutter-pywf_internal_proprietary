@@ -1,6 +1,6 @@
 # User Settings
 {{ cookiecutter.package_name }}.egg-info/
-node_modules/
+docs/source/**/index.md
 tmp/
 
 # Byte-compiled / optimized / DLL files
