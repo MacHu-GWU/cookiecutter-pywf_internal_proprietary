@@ -21,3 +21,5 @@ try:
     subprocess.run(args, cwd=dir_here, check=True)
 except Exception as e:
     print(e)
+args = ["git", "push"]
+subprocess.run(args, cwd=dir_here, check=True)
