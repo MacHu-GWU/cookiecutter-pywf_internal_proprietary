@@ -1,7 +1,7 @@
-.. image:: https://img.shields.io/badge/Release_History!--None.svg?style=social
+.. image:: https://img.shields.io/badge/✍️_Release_History!--None.svg?style=social&logo=github
     :target: https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary/blob/main/release-history.rst
 
-.. image:: https://img.shields.io/badge/STAR_Me_on_GitHub!--None.svg?style=social
+.. image:: https://img.shields.io/badge/⭐_Star_me_on_GitHub!--None.svg?style=social&logo=github
     :target: https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary
 
 

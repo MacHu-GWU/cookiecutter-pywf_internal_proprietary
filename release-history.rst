@@ -19,5 +19,5 @@ Backlog (TODO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
 
-- First Release
-- Use ``pywf_open_source as the automation engine
+- First Release.
+- Use ``pywf_internal_proprietary`` as the automation engine.
