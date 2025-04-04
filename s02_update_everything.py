@@ -41,6 +41,7 @@ def update_and_push_main():
         subprocess.run(args, cwd=dir_here, check=True)
     except Exception as e:
         print(e)
+    git_push()
 
 
 def merge_and_push_branch(branch_name: str):
