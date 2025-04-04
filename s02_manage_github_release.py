@@ -17,4 +17,7 @@ args = [
 ]
 subprocess.run(args, cwd=dir_here, check=True)
 args = ["git", "commit", "-m", "update template"]
-subprocess.run(args, cwd=dir_here, check=True)
+try:
+    subprocess.run(args, cwd=dir_here, check=True)
+except Exception as e:
+    print(e)
