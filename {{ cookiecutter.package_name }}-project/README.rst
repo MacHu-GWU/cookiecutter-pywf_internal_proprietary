@@ -8,7 +8,7 @@
     :target: https://{{ cookiecutter.package_name | slugify }}.pages.dev
 
 .. image:: https://img.shields.io/badge/AWS_CodeArtifact-📦_Link-None.svg?style=flat&logo=amazonwebservices&logoColor=darkorange&color=darkorange
-    :target: https://{{ cookiecutter.aws_region }}.console.aws.amazon.com/codesuite/codeartifact/d/{{ cookiecutter.aws_account_id }}/{{ cookiecutter.aws_codeartifact_domain }}/r/{{ cookiecutter.aws_codeartifact_repository }}/p/pypi/{{ cookiecutter.package_name | slugify }}/versions?region={{ cookiecutter.aws_region }}
+    :target: https://{{ cookiecutter.aws_region }}.console.aws.amazon.com/codesuite/codeartifact/d/{{ cookiecutter.aws_account_id }}/esc/r/esc-python/p/pypi/{{ cookiecutter.package_name | slugify }}/versions?region={{ cookiecutter.aws_region }}
 
 .. image:: https://img.shields.io/badge/✍️_Release_History!--None.svg?style=social&logo=github
     :target: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.package_name }}-project/blob/main/release-history.rst

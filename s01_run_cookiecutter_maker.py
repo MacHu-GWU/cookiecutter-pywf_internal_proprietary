@@ -78,6 +78,26 @@ maker = Maker(
                 "if you want to automatically setup CI/CD for your project"
             ),
         ),
+        # has to substitute value that may have aws_region as part of
+        # the naming convention before substitute the aws_region
+        Parameter(
+            selector=['aws_codeartifact_profile = "esc_app_devops_us_east_1"', "esc_app_devops_us_east_1"],
+            name="aws_codeartifact_profile",
+            default="your_aws_codeartifact_profile",
+            prompt="AWS CLI profile for publishing package to AWS CodeArtifact, e.g. your_aws_codeartifact_profile",
+        ),
+        Parameter(
+            selector=['doc_host_aws_profile = "esc_app_devops_us_east_1"', "esc_app_devops_us_east_1"],
+            name="doc_host_aws_profile",
+            default="your_doc_host_aws_profile",
+            prompt="AWS CLI profile for publishing document website to AWS S3 bucket, e.g. your_doc_host_aws_profile",
+        ),
+        Parameter(
+            selector=["esc-app-devops-us-east-1-doc-host"],
+            name="doc_host_s3_bucket",
+            default="your_doc_host_s3_bucket",
+            prompt="AWS S3 Bucket to store document site historical versions",
+        ),
         Parameter(
             selector=["us-east-1"],
             name="aws_region",
@@ -91,19 +111,19 @@ maker = Maker(
             prompt="Your 12 digits AWS Account Id where you put your CodeArtifact domain, e.g. 111122223333",
         ),
         Parameter(
-            selector=['aws_codeartifact_profile = "esc_app_devops_us_east_1"', "esc_app_devops_us_east_1"],
-            name="aws_codeartifact_profile",
-            default="your_aws_codeartifact_profile",
-            prompt="AWS CLI profile for publishing package to AWS CodeArtifact, e.g. your_aws_codeartifact_profile",
-        ),
-        Parameter(
             selector=['aws_codeartifact_domain = "esc"', "esc"],
             name="aws_codeartifact_domain",
             default="your_aws_codeartifact_domain",
             prompt="AWS CodeArtifact domain name",
         ),
         Parameter(
-            selector=["/esc/r/", "esc"],
+            selector=['name = "esc"', "esc"],
+            name="aws_codeartifact_domain",
+            default="your_aws_codeartifact_domain",
+            prompt="AWS CodeArtifact domain name",
+        ),
+        Parameter(
+            selector=["https://esc", "esc"],
             name="aws_codeartifact_domain",
             default="your_aws_codeartifact_domain",
             prompt="AWS CodeArtifact domain name",
@@ -115,22 +135,10 @@ maker = Maker(
             prompt="AWS CodeArtifact Python repository name",
         ),
         Parameter(
-            selector=["esc-python/p/pypi/", "esc-python"],
+            selector=["pypi/esc-python/simple", "esc-python"],
             name="aws_codeartifact_repository",
             default="your_aws_codeartifact_repository",
             prompt="AWS CodeArtifact Python repository name",
-        ),
-        Parameter(
-            selector=['doc_host_aws_profile = "esc_app_devops_us_east_1"', "esc_app_devops_us_east_1"],
-            name="doc_host_aws_profile",
-            default="your_doc_host_aws_profile",
-            prompt="AWS CLI profile for publishing document website to AWS S3 bucket, e.g. your_doc_host_aws_profile",
-        ),
-        Parameter(
-            selector=["esc-app-devops-us-east-1-doc-host"],
-            name="doc_host_s3_bucket",
-            default="your_doc_host_s3_bucket",
-            prompt="AWS S3 Bucket to store document site historical versions",
         ),
         Parameter(
             selector=['cloudflare_account_alias = "esc"', "esc"],
