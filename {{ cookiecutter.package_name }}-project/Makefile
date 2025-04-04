@@ -13,7 +13,7 @@ venv-remove: ## ** Remove Virtual Environment
 
 
 poetry-source-add: ## Add AWS CodeArtifact as secondary source in poetry
-	python ./bin/s02_0_poetry_source_add.py
+	~/.pyenv/shims/python ./bin/s02_0_poetry_source_add.py
 
 
 poetry-lock: poetry-source-add ## Resolve dependencies using poetry, update poetry.lock file
@@ -86,23 +86,23 @@ view-doc: ## View documentation website locally
 
 
 deploy-versioned-doc: install install-doc ## Deploy documentation website to AWS S3 with version
-	./.venv/bin/python ./bin/s04_3_deploy_versioned_doc.py
+	~/.pyenv/shims/python ./bin/s04_3_deploy_versioned_doc.py
 
 
 deploy-latest-doc: install install-doc ## Deploy documentation website to AWS S3 as latest version
-	./.venv/bin/python ./bin/s04_4_deploy_latest_doc.py
+	~/.pyenv/shims/python ./bin/s04_4_deploy_latest_doc.py
 
 
 view-latest-doc: install install-doc ## View latest version of documentation website on AWS S3
-	./.venv/bin/python ./bin/s04_5_view_latest_doc.py
+	~/.pyenv/shims/python ./bin/s04_5_view_latest_doc.py
 
 
 create-pages-project: ## Create Cloudflare pages project
-	./.venv/bin/python ./bin/s04_6_create_cloudflare_pages_project.py
+	~/.pyenv/shims/python ./bin/s04_6_create_cloudflare_pages_project.py
 
 
 deploy-pages: ## Deploy Cloudflare pages project from docs/build/html folder
-	./.venv/bin/python ./bin/s04_7_deploy_cloudflare_pages.py
+	~/.pyenv/shims/python ./bin/s04_7_deploy_cloudflare_pages.py
 
 
 build: ## Build Python library distribution package
@@ -126,4 +126,4 @@ setup-codecov: ## Setup Codecov Upload Token in GitHub Action Secrets
 
 
 setup-cloudflare-token: ## Setup Cloudflare Pages Upload Token in GitHub Action Secrets
-	./.venv/bin/python ./bin/s06_2_setup_cloudflare_pages_upload_token_on_github.py
+	~/.pyenv/shims/python ./bin/s06_2_setup_cloudflare_pages_upload_token_on_github.py
