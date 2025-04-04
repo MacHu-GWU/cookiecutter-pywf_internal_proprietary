@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import os
+"""
+After running the ``s01_run_cookiecutter_maker.py`` script,
+manually check generated template directory, then you can use this script
+to do git commit, git push, update other branches, and update GitHub release.
+"""
+
 import shutil
 import subprocess
-from pathlib import Path
 
 from manage_github_release import GitHubReleaseManager
 from s01_run_cookiecutter_maker import dir_here
