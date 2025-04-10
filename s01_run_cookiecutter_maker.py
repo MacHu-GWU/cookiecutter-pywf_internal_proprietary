@@ -167,7 +167,7 @@ maker = Maker(
         ".poetry",
         "tmp",
         "bin/pywf_internal_proprietary",
-        "docs/source/cookiecutter_pywf_internal_proprietary_demo",
+        "docs/source/api",
         # file
         ".coverage",  # Coverage data
         ".pyc",  # Compiled Python files
