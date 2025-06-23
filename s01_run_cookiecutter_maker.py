@@ -69,15 +69,6 @@ maker = Maker(
             default="3.11.8",
             prompt="Python version for local development, in {major}.{minor}.{micro} (e.g. 3.11.8)",
         ),
-        Parameter(
-            selector=["sanhe-dev"],
-            name="token_name",
-            default="your_github_codecov_cloudflare_token_name",
-            prompt=(
-                "Your GitHub token, codecov token and cloudflare token name (better to be the same name), "
-                "if you want to automatically setup CI/CD for your project"
-            ),
-        ),
         # has to substitute value that may have aws_region as part of
         # the naming convention before substitute the aws_region
         Parameter(
@@ -141,10 +132,22 @@ maker = Maker(
             prompt="AWS CodeArtifact Python repository name",
         ),
         Parameter(
-            selector=['cloudflare_account_alias = "esc"', "esc"],
-            name="cloudflare_account_alias",
-            default="your_cloudflare_account_alias",
-            prompt="Your cloudflare account alias, we need this to locate the token file",
+            selector=["providers.github.accounts.sh.users.sh.secrets.dev.value"],
+            name="github_token_field",
+            default="your_github_token_field",
+            prompt="GitHub token field, Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json",
+        ),
+        Parameter(
+            selector=["providers.codecov_io.accounts.sh.users.sh.secrets.dev.value"],
+            name="codecov_token_field",
+            default="your_codecov_token_field",
+            prompt="Codecov.io token field, Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json",
+        ),
+        Parameter(
+            selector=["providers.cloudflare.accounts.esc.users.sh_esc.secrets.cloudflare_pages_upload.value"],
+            name="cloudflare_token_field",
+            default="your_cloudflare_token_field",
+            prompt="Your cloudflare token, , Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json",
         ),
     ],
     # Define which files/directories to include in the template
