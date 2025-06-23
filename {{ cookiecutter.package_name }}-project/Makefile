@@ -145,5 +145,13 @@ setup-codecov: ## ⭐ Setup Codecov Upload Token in GitHub Action Secrets
 	~/.pyenv/shims/python ./bin/g6_t1_s1_setup_codecov.py
 
 
-setup-cloudflare-token: ## Setup Cloudflare Pages Upload Token in GitHub Action Secrets
+setup-cloudflare-token: ## ⭐ Setup Cloudflare Pages Upload Token in GitHub Action Secrets
 	~/.pyenv/shims/python ./bin/g6_t1_s2_setup_cloudflare_pages_upload_token_on_github.py
+
+
+edit-github: ## ⭐ Edit GitHub Repository Metadata
+	~/.pyenv/shims/python ./bin/g6_t1_s3_edit_github_repo.py
+
+
+setup-github-env-var: ## ⭐ Setup GitHub Secret Environment Variables
+	~/.pyenv/shims/python ./bin/g6_t1_s4_setup_github_secrets.py
