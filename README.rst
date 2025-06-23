@@ -37,31 +37,35 @@ To use a specific released version (see the `full list of release at here <https
 
     cookiecutter https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary --checkout tags/${version}
 
-For example, to use ``0.1.1`` (the latest as of 2025-04-03):
+For example, to use ``0.1.2`` (the latest as of 2025-06-23):
 
 .. code-block:: bash
 
-    cookiecutter https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary --checkout tags/0.1.1
+    cookiecutter https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary --checkout tags/0.1.2
 
 You'll then be prompted to provide the following information:
 
 .. code-block:: bash
 
-  [1/15] Your Python package name, in snake case (e.g. my_package) (your_package_name):
-  [2/15] github_username (your_github_username):
-  [3/15] Author name for pyproject.toml file (Firstname Lastname):
-  [4/15] Author email for pyproject.toml file (firstname.lastname@email.com):
-  [5/15] Semantic Version, in {major}.{minor}.{micro} (e.g. 0.1.1) (0.1.1):
-  [6/15] Python version for local development, in {major}.{minor}.{micro} (e.g. 3.11.8) (3.11.8):
-  [7/15] Your GitHub token, codecov token and cloudflare token name (better to be the same name), if you want to automatically setup CI/CD for your project (your_github_codecov_cloudflare_token_name):
-  [8/15] Your AWS CodeArtifact region name, e.g. us-east-1 (us-east-1):
-  [9/15] Your 12 digits AWS Account Id where you put your CodeArtifact domain, e.g. 111122223333 (111122223333):
-  [10/15] AWS CLI profile for publishing package to AWS CodeArtifact, e.g. your_aws_codeartifact_profile (your_aws_codeartifact_profile):
-  [11/15] AWS CodeArtifact domain name (your_aws_codeartifact_domain):
-  [12/15] AWS CodeArtifact Python repository name (your_aws_codeartifact_repository):
-  [13/15] AWS CLI profile for publishing document website to AWS S3 bucket, e.g. your_doc_host_aws_profile (your_doc_host_aws_profile):
-  [14/15] AWS S3 Bucket to store document site historical versions (your_doc_host_s3_bucket):
-  [15/15] Your cloudflare account alias, we need this to locate the token file (your_cloudflare_account_alias):
+    [1/16] Your Python package name, in snake case (e.g. my_package) (your_package_name):
+    [2/16] github_username (your_github_username):
+    [3/16] Author name for pyproject.toml file (Firstname Lastname):
+    [4/16] Author email for pyproject.toml file (firstname.lastname@email.com):
+    [5/16] Semantic Version, in {major}.{minor}.{micro} (e.g. 0.1.1) (0.1.1):
+    [6/16] Python version for local development, in {major}.{minor}.{micro} (e.g. 3.11.8) (3.11.8):
+    [7/16] AWS CLI profile for publishing package to AWS CodeArtifact, e.g. your_aws_codeartifact_profile (your_aws_codeartifact_profile):
+    [8/16] AWS CLI profile for publishing document website to AWS S3 bucket, e.g. your_doc_host_aws_profile (your_doc_host_aws_profile):
+    [9/16] AWS S3 Bucket to store document site historical versions (your_doc_host_s3_bucket):
+    [10/16] Your AWS CodeArtifact region name, e.g. us-east-1 (us-east-1):
+    [11/16] Your 12 digits AWS Account Id where you put your CodeArtifact domain, e.g. 111122223333 (111122223333):
+    [12/16] AWS CodeArtifact domain name (your_aws_codeartifact_domain):
+    [13/16] AWS CodeArtifact Python repository name (your_aws_codeartifact_repository):
+    [14/16] GitHub token field, Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json
+    (your_github_token_field):
+    [15/16] Codecov.io token field, Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json
+    (your_codecov_token_field):
+    [16/16] Your cloudflare token, , Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json
+    (your_cloudflare_token_field):
 
 This will generate a repository structure similar to `cookiecutter_pywf_internal_proprietary_demo-project <https://github.com/MacHu-GWU/cookiecutter_pywf_internal_proprietary_demo-project>`_ (Not a public Git Repo).
 
