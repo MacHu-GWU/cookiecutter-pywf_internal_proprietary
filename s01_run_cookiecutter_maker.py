@@ -7,7 +7,7 @@ Convert a seed repo into a project template.
 import shutil
 from pathlib import Path
 from cookiecutter_maker.api import Parameter, Maker
-
+from settings import version_to_replace
 # Get the current directory and create a temporary directory for output
 dir_here: Path = Path(__file__).absolute().parent
 dir_tmp = dir_here.joinpath("tmp")
@@ -56,8 +56,8 @@ maker = Maker(
         ),
         Parameter(
             selector=[
-                'version = "0.1.1"',
-                "0.1.1",
+                f'version = "{version_to_replace}"',
+                f"{version_to_replace}",
             ],
             name="version",
             default="0.1.1",
