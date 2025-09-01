@@ -4,13 +4,25 @@
 Convert a seed repo into a project template.
 """
 
+import sys
 import shutil
+import subprocess
 from pathlib import Path
 from cookiecutter_maker.api import Parameter, Maker
 from settings import version_to_replace
+
 # Get the current directory and create a temporary directory for output
 dir_here: Path = Path(__file__).absolute().parent
 dir_tmp = dir_here.joinpath("tmp")
+dir_seed = Path.home().joinpath(
+    "Documents",
+    "GitHub",
+    "cookiecutter_pywf_internal_proprietary_demo-project",
+)
+path_version = dir_seed / "cookiecutter_pywf_internal_proprietary_demo" / "_version.py"
+args = [sys.executable, str(path_version)]
+result = subprocess.run(args, capture_output=True)
+print(result.stdout.decode("utf-8"))
 
 # Create a Maker instance to convert the project into a template
 maker = Maker(
