@@ -11,8 +11,7 @@ import subprocess
 from home_secret import hs
 
 from manage_github_release import GitHubReleaseManager
-from settings import version_to_replace
-from s01_run_cookiecutter_maker import dir_here
+from s01_run_cookiecutter_maker import dir_here, version_to_replace
 
 dir_tmp_template = dir_here / "tmp" / "{{ cookiecutter.package_name }}-project"
 dir_template = dir_here / "{{ cookiecutter.package_name }}-project"
