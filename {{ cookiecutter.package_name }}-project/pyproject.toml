@@ -164,7 +164,6 @@ doc_host_s3_bucket = "{{ cookiecutter.doc_host_s3_bucket }}"
 # And put the token in ``${HOME}/home_secret.json``
 cloudflare_token_field = "{{ cookiecutter.cloudflare_token_field }}"
 
-
 # Read: https://python-poetry.org/docs/repositories/
 [[tool.poetry.source]]
 name = "{{ cookiecutter.aws_codeartifact_domain }}"
