@@ -167,7 +167,8 @@ maker = Maker(
         "dist",  # Distribution packages
         "htmlcov",  # HTML coverage reports
         "__pycache__",  # Python cache files
-        ".poetry",
+        ".poetry", # Poetry cache
+        ".wrangler",  # Cloudflare Wrangler cache
         "tmp",
         "bin/pywf_internal_proprietary",
         "docs/source/api",
@@ -183,6 +184,7 @@ maker = Maker(
         "*/vendor/**/*.*",
         # file
         "poetry.lock",
+        "uv.lock",
         "requirements.txt",
         "requirements-automation.txt",
         "requirements-dev.txt",

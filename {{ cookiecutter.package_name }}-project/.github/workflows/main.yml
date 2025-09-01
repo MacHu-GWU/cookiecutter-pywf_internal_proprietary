@@ -10,6 +10,7 @@ on:
 env:
   AWS_REGION: "{{ cookiecutter.aws_region }}"
   DEVOPS_AWS_ACCOUNT_ID: ${% raw %}{{{% endraw %} secrets.DEVOPS_AWS_ACCOUNT_ID {% raw %}}}{% endraw %}
+  CLOUDFLARE_API_TOKEN: ${% raw %}{{{% endraw %} secrets.CLOUDFLARE_API_TOKEN {% raw %}}}{% endraw %}
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -66,7 +67,7 @@ jobs:
       - name: Install poetry
         run: |
           python -m pip install -r requirements-poetry.txt
-          python -m pip install "pywf_internal_proprietary>=0.1.10,<1.0.0"
+          python -m pip install "pywf_internal_proprietary>=0.1.11,<1.0.0"
       # Second Python setup specifically for project dependencies managed by Poetry
       - uses: actions/setup-python@v5
         with:
@@ -90,12 +91,20 @@ jobs:
         run: |
           python bin/g3_t2_s1_run_cov_test.py
       # See https://github.com/cloudflare/wrangler-action
-      - if: ${env.GITHUB_REF_NAME } == 'doc'
+#      - if: ${% raw %}{{{% endraw %} env.GITHUB_REF_NAME {% raw %}}}{% endraw %} == 'doc'
+#        name: "Setup Cloudflare Wrangler"
+#        uses: cloudflare/wrangler-action@v3
+#        with:
+#          apiToken: ${% raw %}{{{% endraw %} secrets.CLOUDFLARE_API_TOKEN {% raw %}}}{% endraw %}
+      - if: ${% raw %}{{{% endraw %} env.GITHUB_REF_NAME {% raw %}}}{% endraw %} == 'doc'
         name: "Build Documentation Website and Publish to Cloudflare"
-        with:
-          apiToken: ${% raw %}{{{% endraw %} secrets.CLOUDFLARE_API_TOKEN {% raw %}}}{% endraw %}
-          run: |
-            python bin/g4_t2_s1_build_doc.py
-            python bin/g4_t4_s2_deploy_cloudflare_pages.py
+        run: |
+          npm install -g wrangler
+          which wrangler
+          wrangler --version
+          sudo apt-get update && sudo apt-get install -y pandoc
+          python bin/g2_t2_s5_install_doc.py
+          python bin/g4_t2_s1_build_doc.py
+          python bin/g4_t4_s2_deploy_cloudflare_pages.py
       - name: === 🛑 END OF THE JOB ===
         run: echo "END OF THE JOB"

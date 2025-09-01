@@ -579,6 +579,29 @@ files = [
 ]
 
 [[package]]
+name = "esc-aws-org-struct"
+version = "0.1.3"
+description = "A Python library that simplifies AWS Organizations management by providing type-safe enums and predefined structures for organization units and accounts."
+optional = false
+python-versions = ">=3.9,<4.0"
+groups = ["main"]
+files = [
+    {file = "esc_aws_org_struct-0.1.3-py3-none-any.whl", hash = "sha256:bcfe1a3b9bc990347dc685ae6f157c3278fe192d9d9783f1d1024d2f376bc2d8"},
+    {file = "esc_aws_org_struct-0.1.3.tar.gz", hash = "sha256:c1cd73079bcea2b772f6b9c71c7d0483674c2d4eefa12a070afbf40b57cf7030"},
+]
+
+[package.extras]
+aws = ["aws_organizations (>=0.4.2,<1.0.0)", "boto3 (>=1.35.99,<2.0.0)", "boto_session_manager (>=1.7.2,<2.0.0)"]
+dev = ["build (>=1.2.1,<2.0.0)", "rich (>=13.8.1,<14.0.0)", "twine (>=6.0.0,<7.0.0)", "wheel (>=0.45.0,<1.0.0)"]
+doc = ["Sphinx (>=7.4.7,<8.0.0)", "docfly (==3.0.0)", "furo (==2024.8.6)", "ipython (>=8.18.1,<8.19.0)", "nbsphinx (>=0.8.12,<1.0.0)", "pygments (>=2.18.0,<3.0.0)", "rstobj (==1.2.1)", "sphinx-copybutton (>=0.5.2,<1.0.0)", "sphinx-design (>=0.6.1,<1.0.0)", "sphinx-jinja (>=2.0.2,<3.0.0)"]
+test = ["aws_organizations (>=0.4.2,<1.0.0)", "boto3 (>=1.35.99,<2.0.0)", "boto_session_manager (>=1.7.2,<2.0.0)", "pytest (>=8.2.2,<9.0.0)", "pytest-cov (>=6.0.0,<7.0.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://esc-982534387049.d.codeartifact.us-east-1.amazonaws.com/pypi/esc-python/simple"
+reference = "esc"
+
+[[package]]
 name = "exceptiongroup"
 version = "1.2.2"
 description = "Backport of PEP 654 (exception groups)"
@@ -2528,4 +2551,4 @@ test = ["pytest", "pytest-cov"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<4.0"
-content-hash = "01c45135c633c681527f9c438b85ca215517dc9c01deefba683585f5bb6ce376"
+content-hash = "f1692b10a09d4515feeb134d4796fefef0ce4012a6fa91490220abe3705566e8"
