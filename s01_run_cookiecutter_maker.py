@@ -18,6 +18,7 @@ dir_seed = Path.home().joinpath(
     "GitHub",
     "cookiecutter_pywf_internal_proprietary_demo-project",
 )
+
 # Extract the current version from the seed project to use as a placeholder
 path_version = dir_seed / "cookiecutter_pywf_internal_proprietary_demo" / "_version.py"
 args = [sys.executable, str(path_version)]
