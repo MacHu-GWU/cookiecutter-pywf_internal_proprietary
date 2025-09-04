@@ -1,5 +1,49 @@
 # -*- coding: utf-8 -*-
 
+.PHONY: help \
+		bootstrap \
+		venv-create \
+		venv-remove \
+		poetry-source-add \
+		poetry-login \
+		pip-login \
+		twine-login \
+		poetry-lock \
+		poetry-export \
+		uv-login \
+		uv-lock \
+		install-root \
+		install \
+		install-dev \
+		install-test \
+		install-doc \
+		install-automation \
+		install-all \
+		test-only \
+		test \
+		cov-only \
+		cov \
+		view-cov \
+		int-only \
+		int \
+		nb-to-md \
+		build-doc \
+		view-doc \
+		deploy-versioned-doc \
+		deploy-latest-doc \
+		view-latest-doc \
+		create-pages-project \
+		deploy-pages \
+		build \
+		publish \
+		remove \
+		release \
+		setup-codecov \
+		setup-cloudflare-token \
+		edit-github \
+		setup-github-env-var \
+
+
 help: ## ⭐ Show this help message
 	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
