@@ -34,8 +34,7 @@ class SeedValues:
     github_username = "MacHu-GWU"
 
     # --- license ---
-    license = "MIT"
-    license_classifier = "License :: OSI Approved :: MIT License"
+    license = "LicenseRef-Proprietary"
 
     # --- author ---
     author = "Sanhe Hu"
@@ -47,8 +46,16 @@ class SeedValues:
 
     # --- secret token fields ---
     github_token_field = "github.accounts.sh.users.sh.secrets.dev.value"
-    codecov_token_field = "codecov_io.accounts.sh.users.sh.secrets.dev.value"
-    readthedocs_token_field = "readthedocs.accounts.sh.users.sh.secrets.dev.value"
+    cloudflare_token_field = "cloudflare.accounts.esc.users.sh_esc.secrets.cloudflare_pages_upload.value"
+
+    # --- AWS ---
+    aws_account_id = "982534387049"
+    aws_region = "us-east-1"
+    aws_codeartifact_profile = "esc_app_devops_us_east_1"
+    aws_codeartifact_domain = "esc"
+    aws_codeartifact_repository = "esc-python"
+    doc_host_aws_profile = "esc_app_devops_us_east_1"
+    doc_host_s3_bucket = "esc-app-devops-us-east-1-doc-host"
 
 
 # Validate version format
@@ -87,36 +94,6 @@ maker = Maker(
             default="your_github_username",
         ),
         Parameter(
-            selector=[f'license = "{SeedValues.license}"', SeedValues.license],
-            name="license",
-            choice=[
-                "MIT",
-                "AGPL-3.0-or-later",
-                "Proprietary",
-            ],
-            prompt="Pick an open source license for pyproject.toml file, see https://choosealicense.com/ for details",
-        ),
-        Parameter(
-            selector=[f'__license__ = "{SeedValues.license}"', SeedValues.license],
-            name="license",
-            choice=[
-                "MIT",
-                "AGPL-3.0-or-later",
-                "Proprietary",
-            ],
-            prompt="Pick an open source license for pyproject.toml file, see https://choosealicense.com/ for details",
-        ),
-        Parameter(
-            selector=[SeedValues.license_classifier],
-            name="license_classifier",
-            default=[
-                "License :: OSI Approved :: MIT License",
-                "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
-                "License :: Other/Proprietary License",
-            ],
-            prompt="Pick a license classifier, this has to match the previous one",
-        ),
-        Parameter(
             selector=[SeedValues.author],
             name="author",
             default="Firstname Lastname",
@@ -127,6 +104,12 @@ maker = Maker(
             name="author_email",
             default="firstname.lastname@email.com",
             prompt="Author email for pyproject.toml file",
+        ),
+        Parameter(
+            selector=[f'license = "{SeedValues.license}"', SeedValues.license],
+            name="license",
+            default="LicenseRef-Proprietary",
+            prompt="SPDX license expression for pyproject.toml (e.g. LicenseRef-Proprietary)",
         ),
         Parameter(
             selector=[
@@ -159,19 +142,98 @@ maker = Maker(
             selector=[SeedValues.github_token_field],
             name="github_token_field",
             default="your_github_token_field",
-            prompt="GitHub token field, Read https://github.com/MacHu-GWU/home_secret_toml-project to learn how to set up your GitHub token using home_secret.json",
+            prompt="GitHub token field path in home_secret.toml, see https://github.com/MacHu-GWU/home_secret_toml-project",
         ),
         Parameter(
-            selector=[SeedValues.codecov_token_field],
-            name="codecov_token_field",
-            default="your_codecov_token_field",
-            prompt="Codecov.io token field, Read https://github.com/MacHu-GWU/home_secret_toml-project to learn how to set up your GitHub token using home_secret.json",
+            selector=[SeedValues.cloudflare_token_field],
+            name="cloudflare_token_field",
+            default="your_cloudflare_token_field",
+            prompt="Cloudflare API token field path in home_secret.toml, see https://github.com/MacHu-GWU/home_secret_toml-project",
+        ),
+        # NOTE: substitute longer/more-specific strings that contain aws_region
+        # before substituting aws_region itself, to avoid partial replacements.
+        Parameter(
+            selector=[
+                f'AWS_CODEARTIFACT_PROFILE = "{SeedValues.aws_codeartifact_profile}"',
+                SeedValues.aws_codeartifact_profile,
+            ],
+            name="aws_codeartifact_profile",
+            default="your_aws_codeartifact_profile",
+            prompt="AWS CLI profile for publishing package to AWS CodeArtifact",
         ),
         Parameter(
-            selector=[SeedValues.readthedocs_token_field],
-            name="readthedocs_token_field",
-            default="your_readthedocs_token_field",
-            prompt="Readthedocs.org token field, Read https://github.com/MacHu-GWU/home_secret_toml-project to learn how to set up your GitHub token using home_secret.json",
+            selector=[
+                f'DOC_HOST_AWS_PROFILE = "{SeedValues.doc_host_aws_profile}"',
+                SeedValues.doc_host_aws_profile,
+            ],
+            name="doc_host_aws_profile",
+            default="your_doc_host_aws_profile",
+            prompt="AWS CLI profile for deploying documentation to AWS S3",
+        ),
+        Parameter(
+            selector=[SeedValues.doc_host_s3_bucket],
+            name="doc_host_s3_bucket",
+            default="your_doc_host_s3_bucket",
+            prompt="AWS S3 bucket for storing versioned documentation",
+        ),
+        # NOTE: substitute aws_codeartifact_domain before aws_region,
+        # because domain names like "esc" may appear inside region-derived strings.
+        Parameter(
+            selector=[
+                f'AWS_CODEARTIFACT_DOMAIN = "{SeedValues.aws_codeartifact_domain}"',
+                SeedValues.aws_codeartifact_domain,
+            ],
+            name="aws_codeartifact_domain",
+            default="your_aws_codeartifact_domain",
+            prompt="AWS CodeArtifact domain name",
+        ),
+        Parameter(
+            selector=[
+                f'name = "{SeedValues.aws_codeartifact_domain}"',
+                SeedValues.aws_codeartifact_domain,
+            ],
+            name="aws_codeartifact_domain",
+            default="your_aws_codeartifact_domain",
+            prompt="AWS CodeArtifact domain name",
+        ),
+        Parameter(
+            selector=[
+                f"https://{SeedValues.aws_codeartifact_domain}",
+                SeedValues.aws_codeartifact_domain,
+            ],
+            name="aws_codeartifact_domain",
+            default="your_aws_codeartifact_domain",
+            prompt="AWS CodeArtifact domain name",
+        ),
+        Parameter(
+            selector=[
+                f'AWS_CODEARTIFACT_REPO = "{SeedValues.aws_codeartifact_repository}"',
+                SeedValues.aws_codeartifact_repository,
+            ],
+            name="aws_codeartifact_repository",
+            default="your_aws_codeartifact_repository",
+            prompt="AWS CodeArtifact Python repository name",
+        ),
+        Parameter(
+            selector=[
+                f"pypi/{SeedValues.aws_codeartifact_repository}/simple",
+                SeedValues.aws_codeartifact_repository,
+            ],
+            name="aws_codeartifact_repository",
+            default="your_aws_codeartifact_repository",
+            prompt="AWS CodeArtifact Python repository name",
+        ),
+        Parameter(
+            selector=[SeedValues.aws_account_id],
+            name="aws_account_id",
+            default="111122223333",
+            prompt="12-digit AWS account ID where your CodeArtifact domain lives (e.g. 111122223333)",
+        ),
+        Parameter(
+            selector=[SeedValues.aws_region],
+            name="aws_region",
+            default="us-east-1",
+            prompt="AWS region for CodeArtifact and S3 doc hosting (e.g. us-east-1)",
         ),
     ],
     # Define which files/directories to include in the template
@@ -187,11 +249,13 @@ maker = Maker(
         ".venv",  # Virtual environment
         ".pytest_cache",  # Test cache
         ".idea",  # PyCharm stuff
+        ".wrangler",  # Cloudflare Wrangler cache
         "build",  # Build artifacts
         "dist",  # Distribution packages
         "htmlcov",  # HTML coverage reports
         "__pycache__",  # Python cache files
         "tmp",
+        "docs/source/api",  # Auto-generated API reference docs
         f"{SeedValues.package_name}.egg-info",
         # file
         ".claude/claude-code-messages.md",
@@ -218,7 +282,6 @@ maker = Maker(
         "*.j2",  # Alternative Jinja extension
         "*.html",  # HTML files with {{ }} syntax
     ],
-    dir_hooks=path_enum.dir_project_root.joinpath("hooks"),
     # Print detailed information during processing
     verbose=True,
 )
