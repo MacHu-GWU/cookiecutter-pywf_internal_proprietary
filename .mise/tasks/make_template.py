@@ -207,6 +207,15 @@ maker = Maker(
         ),
         Parameter(
             selector=[
+                f"/{SeedValues.aws_codeartifact_domain}/r/",
+                SeedValues.aws_codeartifact_domain,
+            ],
+            name="aws_codeartifact_domain",
+            default="your_aws_codeartifact_domain",
+            prompt="AWS CodeArtifact domain name",
+        ),
+        Parameter(
+            selector=[
                 f'AWS_CODEARTIFACT_REPO = "{SeedValues.aws_codeartifact_repository}"',
                 SeedValues.aws_codeartifact_repository,
             ],
@@ -217,6 +226,15 @@ maker = Maker(
         Parameter(
             selector=[
                 f"pypi/{SeedValues.aws_codeartifact_repository}/simple",
+                SeedValues.aws_codeartifact_repository,
+            ],
+            name="aws_codeartifact_repository",
+            default="your_aws_codeartifact_repository",
+            prompt="AWS CodeArtifact Python repository name",
+        ),
+        Parameter(
+            selector=[
+                f"r/{SeedValues.aws_codeartifact_repository}/p/pypi",
                 SeedValues.aws_codeartifact_repository,
             ],
             name="aws_codeartifact_repository",
