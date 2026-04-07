@@ -37,11 +37,11 @@ To use a specific released version (see the `full list of release at here <https
 
     cookiecutter https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary --checkout tags/${version}
 
-For example, to use ``0.1.3`` (the latest as of 2025-09-01):
+For example, to use ``0.1.4`` (the latest as of 2026-04-06):
 
 .. code-block:: bash
 
-    cookiecutter https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary --checkout tags/0.1.3
+    cookiecutter https://github.com/MacHu-GWU/cookiecutter-pywf_internal_proprietary --checkout tags/0.1.4
 
 You'll then be prompted to provide the following information:
 
@@ -51,21 +51,20 @@ You'll then be prompted to provide the following information:
     [2/16] github_username (your_github_username):
     [3/16] Author name for pyproject.toml file (Firstname Lastname):
     [4/16] Author email for pyproject.toml file (firstname.lastname@email.com):
-    [5/16] Semantic Version, in {major}.{minor}.{micro} (e.g. 0.1.1) (0.1.1):
-    [6/16] Python version for local development, in {major}.{minor}.{micro} (e.g. 3.11.8) (3.11.8):
-    [7/16] AWS CLI profile for publishing package to AWS CodeArtifact, e.g. your_aws_codeartifact_profile (your_aws_codeartifact_profile):
-    [8/16] AWS CLI profile for publishing document website to AWS S3 bucket, e.g. your_doc_host_aws_profile (your_doc_host_aws_profile):
-    [9/16] AWS S3 Bucket to store document site historical versions (your_doc_host_s3_bucket):
-    [10/16] Your AWS CodeArtifact region name, e.g. us-east-1 (us-east-1):
-    [11/16] Your 12 digits AWS Account Id where you put your CodeArtifact domain, e.g. 111122223333 (111122223333):
-    [12/16] AWS CodeArtifact domain name (your_aws_codeartifact_domain):
-    [13/16] AWS CodeArtifact Python repository name (your_aws_codeartifact_repository):
-    [14/16] GitHub token field, Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json
+    [5/16] SPDX license expression for pyproject.toml (e.g. LicenseRef-Proprietary) (LicenseRef-Proprietary):
+    [6/16] Semantic Version, in {major}.{minor}.{micro} (e.g. 0.1.1) (0.1.1):
+    [7/16] Python version for local development, in {major}.{minor} (e.g. 3.12) (3.12):
+    [8/16] GitHub token field path in home_secret.toml, see https://github.com/MacHu-GWU/home_secret_toml-project
     (your_github_token_field):
-    [15/16] Codecov.io token field, Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json
-    (your_codecov_token_field):
-    [16/16] Your cloudflare token, , Read https://github.com/MacHu-GWU/home_secret-project to learn how to set up your GitHub token using home_secret.json
+    [9/16] Cloudflare API token field path in home_secret.toml, see https://github.com/MacHu-GWU/home_secret_toml-project
     (your_cloudflare_token_field):
+    [10/16] AWS CLI profile for publishing package to AWS CodeArtifact (your_aws_codeartifact_profile):
+    [11/16] AWS CLI profile for deploying documentation to AWS S3 (your_doc_host_aws_profile):
+    [12/16] AWS S3 bucket for storing versioned documentation (your_doc_host_s3_bucket):
+    [13/16] AWS CodeArtifact domain name (your_aws_codeartifact_domain):
+    [14/16] AWS CodeArtifact Python repository name (your_aws_codeartifact_repository):
+    [15/16] Your 12 digits AWS Account Id where you put your CodeArtifact domain, e.g. 111122223333 (111122223333):
+    [16/16] Your AWS CodeArtifact region name, e.g. us-east-1 (us-east-1):
 
 This will generate a repository structure similar to `cookiecutter_pywf_internal_proprietary_demo-project <https://github.com/MacHu-GWU/cookiecutter_pywf_internal_proprietary_demo-project>`_ (Not a public Git Repo).
 
