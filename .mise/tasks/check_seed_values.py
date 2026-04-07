@@ -36,14 +36,19 @@ CHECKS: list[tuple[str, str]] = [
     ("package_name_slug", SeedValues.package_name_slug),
     ("github_username", SeedValues.github_username),
     ("license", SeedValues.license),
-    ("license_classifier", SeedValues.license_classifier),
     ("author", SeedValues.author),
     ("author_email", SeedValues.author_email),
     ("version", SeedValues.version),
     ("dev_python_version", SeedValues.dev_python_version),
     ("github_token_field", SeedValues.github_token_field),
-    ("codecov_token_field", SeedValues.codecov_token_field),
-    ("readthedocs_token_field", SeedValues.readthedocs_token_field),
+    ("cloudflare_token_field", SeedValues.cloudflare_token_field),
+    ("aws_account_id", SeedValues.aws_account_id),
+    ("aws_region", SeedValues.aws_region),
+    ("aws_codeartifact_profile", SeedValues.aws_codeartifact_profile),
+    ("aws_codeartifact_domain", SeedValues.aws_codeartifact_domain),
+    ("aws_codeartifact_repository", SeedValues.aws_codeartifact_repository),
+    ("doc_host_aws_profile", SeedValues.doc_host_aws_profile),
+    ("doc_host_s3_bucket", SeedValues.doc_host_s3_bucket),
 ]
 
 
