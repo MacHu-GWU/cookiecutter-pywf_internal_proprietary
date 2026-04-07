@@ -1,6 +1,8 @@
 # User Settings
 {{ cookiecutter.package_name }}.egg-info/
 docs/source/**/index.md
+.wrangler/cache
+.claude/claude-code-message*
 tmp/
 
 # Byte-compiled / optimized / DLL files

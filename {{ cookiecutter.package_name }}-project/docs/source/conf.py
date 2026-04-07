@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# {{ cookiecutter.package_name }} documentation build configuration file, created by
+# cookiecutter_pywf_open_source_demo documentation build configuration file, created by
 # sphinx-quickstart on Mon Jul 1 00:00:00 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -22,11 +22,21 @@
 
 import os
 from datetime import datetime
-import {{ cookiecutter.package_name }} as package
+from importlib.metadata import version as get_version, metadata
 
-package_name = package.__name__
-package_author = package.__author__
-package_version = package.__version__
+# Get package metadata from installed package (via pyproject.toml)
+package_name = "{{ cookiecutter.package_name }}"
+_meta = metadata(package_name)
+
+# Extract version
+package_version = get_version(package_name)
+
+# Extract author from "Author-email: Name <email@example.com>" format
+_author_email_raw = _meta.get("Author-email", "")
+if _author_email_raw and "<" in _author_email_raw:
+    package_author = _author_email_raw.split("<")[0].strip()
+else:
+    package_author = _meta.get("Author", "Unknown")
 
 # -- General configuration ------------------------------------------------
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -219,7 +229,7 @@ rst_prolog = "\n" + custom_style_file_content + "\n"
 
 # Add data for Jinja2
 try:
-    from {{ cookiecutter.package_name }}.docs import doc_data
+    from cookiecutter_pywf_open_source_demo.docs import doc_data
 except:
     doc_data = dict()
 
@@ -242,7 +252,6 @@ docfly.ApiDocGenerator(
         f"{package_name}.tests",
         f"{package_name}.vendor",
         # Module
-        f"{package_name}._version",
         f"{package_name}.paths",
     ],
 ).fly()
