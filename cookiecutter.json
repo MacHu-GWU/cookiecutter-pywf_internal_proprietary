@@ -5,7 +5,7 @@
     "author_email": "sanhehu@easyscalecloud.com",
     "license": "LicenseRef-Proprietary",
     "version": "0.1.1",
-    "dev_python_version": "3.11.8",
+    "dev_python_version": "3.12",
     "github_token_field": "github.accounts.sh.users.sh.secrets.dev.value",
     "cloudflare_token_field": "cloudflare.accounts.esc.users.sh_esc.secrets.cloudflare_pages_upload.value",
     "aws_codeartifact_profile": "esc_app_devops_us_east_1",
