@@ -32,7 +32,9 @@ def main():
         sys.exit(1)
 
     package_name = config.project_name
-    url = f"https://{bucket}.s3.amazonaws.com/{S3_PREFIX}{package_name}/latest/index.html"
+    url = (
+        f"https://{bucket}.s3.amazonaws.com/{S3_PREFIX}{package_name}/latest/index.html"
+    )
 
     print(f"Opening: {url}")
     subprocess.run(["open", url], check=True)

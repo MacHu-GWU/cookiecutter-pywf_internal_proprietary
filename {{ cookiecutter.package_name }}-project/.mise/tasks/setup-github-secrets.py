@@ -29,7 +29,9 @@ import os
 import sys
 
 try:
-    from github import Github, GithubException, Auth
+    from github import Github
+    from github import GithubException
+    from github import Auth
 except ImportError:
     print("Error: PyGithub not installed. Run: uv sync --extra mise")
     sys.exit(1)
@@ -73,9 +75,13 @@ def main():
             unencrypted_value=devops_aws_account_id,
             secret_type="actions",
         )
-        print(f"✅ Successfully set {GITHUB_SECRET_DEVOPS_AWS_ACCOUNT_ID} on {repo_fullname}")
+        print(
+            f"✅ Successfully set {GITHUB_SECRET_DEVOPS_AWS_ACCOUNT_ID} on {repo_fullname}"
+        )
     except GithubException as e:
-        print(f"Error: Failed to create/update secret {GITHUB_SECRET_DEVOPS_AWS_ACCOUNT_ID}")
+        print(
+            f"Error: Failed to create/update secret {GITHUB_SECRET_DEVOPS_AWS_ACCOUNT_ID}"
+        )
         print(f"Details: {e}")
         sys.exit(1)
 

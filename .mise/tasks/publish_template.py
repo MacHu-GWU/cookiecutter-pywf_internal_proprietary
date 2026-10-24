@@ -1,129 +1,115 @@
 # -*- coding: utf-8 -*-
 
 """
-Publish the cookiecutter template to GitHub.
+Publish the template. USER ONLY: agents print this command, never run it
+(04-safety-rules.md). Run it after Release Prep (/cctpl-release-cn).
 
-This script is meant to run AFTER ``mise run make-template`` and manual review.
+0. Run the check-release checks; any problem stops here, before anything is
+   pushed. Among them: the tpl repo has no tag of the version yet. The
+   version is the seed's (``cctpl.get_seed_version``), which sync has
+   already copied into this repo.
+1. Commit everything on ``main`` and push.
+2. Create the tag and the GitHub release of the version on the pushed
+   ``main`` commit, in one API call. An existing tag is never moved: a bad
+   release is fixed by a new version.
+3. Regenerate the preset branches from the pushed ``main``
+   (``publish_presets.py``, also its own task ``mise run publish-presets``).
+   They carry no tag, so a failed preset push is retried with that task
+   alone.
 
-Business logic:
+The seed is not touched: its tag comes from its own ``mise run release``.
 
-1. Copy the generated template from ``tmp/`` to the project root, replacing the
-   old ``{{ cookiecutter.package_name }}-project/`` directory.
-2. Commit all changes on the ``main`` branch and push to the remote.
-3. (Optional) For each extra branch (e.g. personalized variants like ``sanhe``),
-   merge ``main`` into that branch and push. These branches carry customized
-   ``cookiecutter.json`` defaults for specific users but share the same template.
-4. Switch back to ``main``.
-5. Create (or update) a GitHub release + tag on the latest commit of the default
-   branch, using the seed project's version as the tag/release name.
+Spec: 08-versioning-and-release.md.
 """
 
 import os
-import shutil
 import subprocess
-import importlib.util
-from pathlib import Path
 
 from pygithub_mate.api import BaseGitHubRepo
 
-from cookiecutter_pywf_internal_proprietary.paths import path_enum
-from make_template import SeedValues
+import cctpl
+import check_release
+import publish_presets
+
+root = cctpl.dir_project_root
 
 
-# ---------------------------------------------------------------------------
-# Import shared values from make_template.py
-# ---------------------------------------------------------------------------
-# We import from make_template.py to reuse:
-# - `dir_here`: Project root directory path
-# - `version_to_replace`: Seed project version (from seed's pyproject.toml)
-#
-# Why: This template's version is synchronized with the seed project's version.
-# When we create a GitHub release, the tag/release name is the seed version.
-version_to_replace = SeedValues.version
-
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
-# Extra branches that carry personalized cookiecutter.json defaults.
-# Each branch will be updated by merging main into it.
-extra_branches: list[str] = [
-    "esc-sanhe-dev",
-]
-
-# ---------------------------------------------------------------------------
-# Confirmation gate — must type Y (uppercase) to proceed
-# ---------------------------------------------------------------------------
-_answer = input("This will commit, push, and create a GitHub release. Type Y to proceed: ")
-if _answer != "Y":
-    print("Aborted.")
-    raise SystemExit(0)
-
-# ---------------------------------------------------------------------------
-# Step 1 — Copy generated template to the project root
-# ---------------------------------------------------------------------------
-dir_project_root = path_enum.dir_project_root
-dir_tmp_template = dir_project_root / "tmp" / "{{ cookiecutter.package_name }}-project"
-dir_template = dir_project_root / "{{ cookiecutter.package_name }}-project"
-
-shutil.rmtree(dir_template, ignore_errors=True)
-shutil.copytree(dir_tmp_template, dir_template)
+def git(*args: str, capture: bool = False) -> str:
+    res = subprocess.run(
+        ["git", *args], cwd=root, check=True, capture_output=capture, text=True
+    )
+    return res.stdout if capture else ""
 
 
-# ---------------------------------------------------------------------------
-# Git helpers
-# ---------------------------------------------------------------------------
-def switch_branch(branch_name: str):
-    subprocess.run(["git", "checkout", branch_name], cwd=dir_project_root, check=True)
+def main() -> int:
+    version = cctpl.get_seed_version()
+    presets = cctpl.load_presets()
 
-
-def git_push():
-    subprocess.run(["git", "push"], cwd=dir_project_root, check=True)
-
-
-def update_and_push_main():
-    """Commit everything on main and push."""
-    switch_branch("main")
-    subprocess.run(["git", "add", "."], cwd=dir_project_root, check=True)
-    try:
-        subprocess.run(
-            ["git", "commit", "-m", "update template"],
-            cwd=dir_project_root,
-            check=True,
+    branch = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).strip()
+    if branch != "main":
+        raise cctpl.TaskError(f"publish from 'main', current branch is {branch!r}")
+    # mise.toml reads the token with '|| true', so a missing secret arrives as
+    # an empty string; fail now, before anything is pushed.
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if not token:
+        raise cctpl.TaskError(
+            "GITHUB_TOKEN is empty: the secret in mise.toml [env] could not be read. "
+            "The GitHub release step needs it."
         )
-    except Exception as e:
-        print(e)
-    git_push()
+
+    # 0. the same checks as 'mise run check-release'
+    problems = check_release.collect_problems()
+    if problems:
+        print(f"=== Version {version} is not ready to publish ===")
+        for line in problems:
+            print(f"  {line}")
+        raise cctpl.TaskError(f"{len(problems)} problem(s); nothing was pushed")
+
+    print(f"Template version: {version}")
+    print(f"Presets: {', '.join(presets) or '(none)'}")
+    answer = input(
+        f"This will commit, push main, create the tag and GitHub release {version}, "
+        "and force-push the preset branches. Type Y to proceed: "
+    )
+    if answer != "Y":
+        print("Aborted.")
+        return 0
+
+    # 1. main
+    git("add", "-A")
+    if git("status", "--porcelain", capture=True).strip():
+        git("commit", "-m", f"Release {version}")
+    git("push", "origin", "main")
+    sha = git("rev-parse", "HEAD", capture=True).strip()
+
+    # 2. tag and release, created together on the pushed main commit; GitHub
+    # refuses if the tag already exists, so nothing is ever overwritten.
+    heading = cctpl.find_changelog_heading(
+        (root / cctpl.TPL_CHANGELOG).read_text(encoding="utf-8"), version
+    )
+    changelog_url = (
+        f"https://github.com/{cctpl.GITHUB_OWNER}/{cctpl.GITHUB_REPO}/blob/{version}/"
+        f"{cctpl.TPL_CHANGELOG}#{cctpl.github_anchor(heading)}"
+    )
+    gh_repo = BaseGitHubRepo(
+        github_kwargs=dict(login_or_token=token),
+        owner_name=cctpl.GITHUB_OWNER,
+        repo_name=cctpl.GITHUB_REPO,
+    )
+    gh_repo.create_release(
+        tag_name=version,
+        release_name=version,
+        release_message=f"Release {version}. Changes: {changelog_url}",
+        create_git_release_kwargs=dict(target_commitish=sha),
+    )
+    print(f"Released {version}")
+
+    # 3. preset branches, derived from the pushed main
+    publish_presets.check_main()
+    publish_presets.publish_presets()
+    print("Next: /cctpl-verify-cn")
+    return 0
 
 
-def merge_and_push_branch(branch_name: str):
-    """Merge main into the given branch and push."""
-    switch_branch(branch_name)
-    subprocess.run(["git", "merge", "main"], cwd=dir_project_root, check=True)
-    subprocess.run(["git", "push"], cwd=dir_project_root, check=True)
-
-
-# ---------------------------------------------------------------------------
-# Step 2 — Commit and push main
-# ---------------------------------------------------------------------------
-update_and_push_main()
-
-# ---------------------------------------------------------------------------
-# Step 3 — Merge main into extra branches (if any)
-# ---------------------------------------------------------------------------
-for branch_name in extra_branches:
-    merge_and_push_branch(branch_name=branch_name)
-switch_branch("main")
-
-# ---------------------------------------------------------------------------
-# Step 4 — Create / update GitHub release
-# ---------------------------------------------------------------------------
-gh_repo = BaseGitHubRepo(
-    github_kwargs=dict(login_or_token=os.environ["GITHUB_TOKEN"]),
-    owner_name="MacHu-GWU",
-    repo_name="cookiecutter-pywf_open_source",
-)
-gh_repo.put_release_on_latest_commit_on_default_branch(
-    tag_name=version_to_replace,
-    release_name=version_to_replace,
-    release_message=f"Release {version_to_replace}",
-)
+if __name__ == "__main__":
+    cctpl.run_task(main)

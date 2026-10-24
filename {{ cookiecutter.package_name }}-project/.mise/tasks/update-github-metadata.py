@@ -1,4 +1,3 @@
-
 """
 Update GitHub repository metadata (description and homepage URL).
 
@@ -7,7 +6,8 @@ Required environment variables:
 
 The script reads project info from pyproject.toml and sets:
 - description: from pyproject.toml [project].description
-- homepage: ReadTheDocs documentation URL
+- homepage: pyproject.toml [project.urls].Documentation (the Cloudflare Pages URL),
+  or no homepage when the library has no hosted docs
 """
 
 # ------------------------------------------------------------------------------
@@ -19,16 +19,16 @@ import os
 import sys
 
 try:
-    from github import Github, GithubException, Auth
+    from github import Github
+    from github import GithubException
+    from github import Auth
 except ImportError:
     print("Error: PyGithub not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from utils import (
-    get_github_repo_info,
-    get_project_description,
-    get_readthedocs_url,
-)
+from utils import config
+from utils import get_github_repo_info
+from utils import get_project_description
 
 
 def main():
@@ -43,7 +43,7 @@ def main():
     owner, repo_name = get_github_repo_info()
     repo_fullname = f"{owner}/{repo_name}"
     description = get_project_description()
-    homepage = get_readthedocs_url()
+    homepage = config.pyproject_data["project"].get("urls", {}).get("Documentation", "")
 
     print(f"Updating GitHub repository metadata: {repo_fullname}")
     repo_url = f"https://github.com/{repo_fullname}"

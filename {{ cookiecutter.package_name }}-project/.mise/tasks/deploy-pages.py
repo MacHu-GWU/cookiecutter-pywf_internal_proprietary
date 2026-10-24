@@ -10,7 +10,9 @@ Requires CLOUDFLARE_API_TOKEN to be set in the environment (via mise.toml).
 import subprocess
 from utils import config
 
-project_name = config.readthedocs_slug  # e.g. {{ cookiecutter.package_name | slugify }}
+project_name = (
+    config.readthedocs_slug
+)  # e.g. {{ cookiecutter.package_name | slugify }}
 pages_url = f"https://{project_name}.pages.dev/"
 
 print(f"Deploying documentation to Cloudflare Pages: {pages_url}")

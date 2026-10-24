@@ -15,11 +15,14 @@
     "aws_codeartifact_repository": "your_aws_codeartifact_repository",
     "aws_account_id": "111122223333",
     "aws_region": "us-east-1",
+    "aws_github_oidc_role_name": "your_aws_github_oidc_role_name",
+    "_template_version": "1.0.0",
     "__prompts__": {
         "package_name": "Your Python package name, in snake case (e.g. my_package)",
-        "license": "SPDX license expression for pyproject.toml (e.g. LicenseRef-Proprietary)",
+        "github_username": "Your GitHub username, the owner of the new repo",
         "author": "Author name for pyproject.toml file",
         "author_email": "Author email for pyproject.toml file",
+        "license": "SPDX license expression for pyproject.toml (e.g. LicenseRef-Proprietary)",
         "version": "Semantic Version, in {major}.{minor}.{micro} (e.g. 0.1.1)",
         "dev_python_version": "Python version for local development, in {major}.{minor} (e.g. 3.12)",
         "github_token_field": "GitHub token field path in home_secret.toml, see https://github.com/MacHu-GWU/home_secret_toml-project",
@@ -30,19 +33,19 @@
         "aws_codeartifact_domain": "AWS CodeArtifact domain name",
         "aws_codeartifact_repository": "AWS CodeArtifact Python repository name",
         "aws_account_id": "Your 12 digits AWS Account Id where you put your CodeArtifact domain, e.g. 111122223333",
-        "aws_region": "Your AWS CodeArtifact region name, e.g. us-east-1"
+        "aws_region": "Your AWS CodeArtifact region name, e.g. us-east-1",
+        "aws_github_oidc_role_name": "IAM role name that GitHub Actions assumes through OIDC to read AWS CodeArtifact (role/<name> in .github/workflows/main.yml)"
     },
     "_copy_without_render": [
-        "*/vendor/**/*.*",
-        "uv.lock",
-        "requirements.txt",
+        "docs/source/_static/{{ cookiecutter.package_name }}-favicon.ico",
+        "docs/source/_static/{{ cookiecutter.package_name }}-logo.png",
         "requirements-dev.txt",
         "requirements-doc.txt",
         "requirements-mise.txt",
         "requirements-test.txt",
-        "*.jinja",
-        "*.j2",
-        "*.html"
+        "requirements.txt",
+        "{{ cookiecutter.package_name }}/vendor/__init__.py",
+        "{{ cookiecutter.package_name }}/vendor/pytest_cov_helper.py"
     ],
     "_new_lines": "\n"
 }

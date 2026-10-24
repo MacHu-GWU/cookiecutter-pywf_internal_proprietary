@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# cookiecutter_pywf_open_source_demo documentation build configuration file, created by
+# {{ cookiecutter.package_name }} documentation build configuration file, created by
 # sphinx-quickstart on Mon Jul 1 00:00:00 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -22,7 +22,8 @@
 
 import os
 from datetime import datetime
-from importlib.metadata import version as get_version, metadata
+from importlib.metadata import version as get_version
+from importlib.metadata import metadata
 
 # Get package metadata from installed package (via pyproject.toml)
 package_name = "{{ cookiecutter.package_name }}"
@@ -229,7 +230,7 @@ rst_prolog = "\n" + custom_style_file_content + "\n"
 
 # Add data for Jinja2
 try:
-    from cookiecutter_pywf_open_source_demo.docs import doc_data
+    from {{ cookiecutter.package_name }}.docs import doc_data
 except:
     doc_data = dict()
 
@@ -253,5 +254,6 @@ docfly.ApiDocGenerator(
         f"{package_name}.vendor",
         # Module
         f"{package_name}.paths",
+        f"{package_name}.cli",
     ],
 ).fly()

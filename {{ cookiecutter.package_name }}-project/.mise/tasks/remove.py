@@ -49,7 +49,9 @@ def main():
             print(f"Error: {name} environment variable not set")
             sys.exit(1)
 
-    package = config.readthedocs_slug  # e.g. {{ cookiecutter.package_name | slugify }}
+    package = (
+        config.readthedocs_slug
+    )  # e.g. {{ cookiecutter.package_name | slugify }}
     version = config.pyproject_data["project"]["version"]
 
     console_url = (
@@ -74,15 +76,25 @@ def main():
     try:
         subprocess.run(
             [
-                "aws", "codeartifact", "delete-package-versions",
-                "--profile", profile,
-                "--domain", domain,
-                "--domain-owner", domain_owner,
-                "--repository", repo,
-                "--format", "pypi",
-                "--package", package,
-                "--versions", version,
-                "--expected-status", "Published",
+                "aws",
+                "codeartifact",
+                "delete-package-versions",
+                "--profile",
+                profile,
+                "--domain",
+                domain,
+                "--domain-owner",
+                domain_owner,
+                "--repository",
+                repo,
+                "--format",
+                "pypi",
+                "--package",
+                package,
+                "--versions",
+                version,
+                "--expected-status",
+                "Published",
             ],
             check=True,
         )

@@ -10,15 +10,17 @@
 #
 # Pattern for sensitive vars: tera template checks the env var first (CI injects
 # it via GitHub Secrets), falls back to hst get from ~/home_secret.toml locally.
-#   {% raw %}{{{% endraw %} env.VAR | default(value=exec(command='uvx --from home-secret-toml hst get <path>')) {% raw %}}}{% endraw %}
+#   {% raw %}{{{% endraw %} env.VAR | default(value=exec(command='uvx --from home-secret-toml hst get <path> || true')) {% raw %}}}{% endraw %}
+# The ``|| true`` keeps mise loading when a secret is unreadable: the value is then
+# an empty string, and only the tasks that need it report it as not set.
 # =============================================================================
 
 # Sensitive Values — fetched from ~/home_secret.toml via hst (home-secret-toml).
 # See: https://pypi.org/project/home-secret-toml/
 # `uvx --from home-secret-toml hst get <path>` reads a value from the local
 # secret store without installing hst permanently into the project environment.
-GITHUB_TOKEN = "{% raw %}{{{% endraw %} env.GITHUB_TOKEN | default(value=exec(command='uvx --from home-secret-toml hst get {{ cookiecutter.github_token_field }}')) {% raw %}}}{% endraw %}"
-CLOUDFLARE_API_TOKEN = "{% raw %}{{{% endraw %} env.CLOUDFLARE_API_TOKEN | default(value=exec(command='uvx --from home-secret-toml hst get {{ cookiecutter.cloudflare_token_field }}')) {% raw %}}}{% endraw %}"
+GITHUB_TOKEN = "{% raw %}{{{% endraw %} env.GITHUB_TOKEN | default(value=exec(command='uvx --from home-secret-toml hst get {{ cookiecutter.github_token_field }} || true')) {% raw %}}}{% endraw %}"
+CLOUDFLARE_API_TOKEN = "{% raw %}{{{% endraw %} env.CLOUDFLARE_API_TOKEN | default(value=exec(command='uvx --from home-secret-toml hst get {{ cookiecutter.cloudflare_token_field }} || true')) {% raw %}}}{% endraw %}"
 
 # Non-Sensitive Values
 # AWS account ID for the DevOps account - set as GitHub Actions secret for CI/CD
@@ -32,6 +34,9 @@ AWS_CODEARTIFACT_REGION = "{{ cookiecutter.aws_region }}"
 AWS_CODEARTIFACT_DOMAIN_OWNER = "{{ cookiecutter.aws_account_id }}"
 AWS_CODEARTIFACT_DOMAIN = "{{ cookiecutter.aws_codeartifact_domain }}"
 AWS_CODEARTIFACT_REPO = "{{ cookiecutter.aws_codeartifact_repository }}"
+# Make uv use the mise Python below (first ``python`` on PATH; setup-python's in CI), not a
+# uv-managed one or a global ``~/.config/uv/.python-version`` pin.
+UV_PYTHON = "python"
 
 [tools]
 python = "{{ cookiecutter.dev_python_version }}"
@@ -88,10 +93,25 @@ run = ".venv/bin/pytest tests -s --tb=native --cov={{ cookiecutter.package_name 
 description = "👀📊 Open code coverage HTML report in browser (requires 'cov' task to run first)"
 run = "open htmlcov/index.html"
 
+# Code Quality
+[tasks.format]
+description = "🎨 Format all Python code with ruff (package, tests, mise task scripts, pywf-priv skill scripts)"
+run = "uvx ruff format {{ cookiecutter.package_name }} tests .mise/tasks .claude/skills/pywf-priv-base"
+
+[tasks.lint]
+description = "🔍 Lint Python code with ruff (unused/undefined names) and check one imported name per statement"
+run = """
+uvx ruff check --select F401,F821,F841 {{ cookiecutter.package_name }} tests .mise/tasks .claude/skills/pywf-priv-base
+python3 .claude/skills/pywf-priv-base/scripts/check_one_import_per_line.py --paths {{ cookiecutter.package_name }} tests .mise/tasks .claude/skills/pywf-priv-base
+"""
+
 # Documentation
 [tasks.build-doc]
 description = "📚 Build Sphinx documentation using sphinx-build (generates HTML in docs/build/html/)"
-run = ".venv/bin/sphinx-build -b html docs/source docs/build/html"
+run = """
+rm -rf docs/build
+.venv/bin/sphinx-build -b html docs/source docs/build/html
+"""
 
 [tasks.view-doc]
 description = "👀📚 Open built Sphinx documentation in browser (requires 'build-doc' task to run first)"
@@ -125,8 +145,8 @@ uv build
 description = "🚀 Publish Python package to AWS CodeArtifact using uv"
 run = """
 . .mise/tasks/codeartifact-env.sh
-export UV_PUBLISH_USERNAME=$UV_INDEX_ESC_USERNAME
-export UV_PUBLISH_PASSWORD=$UV_INDEX_ESC_PASSWORD
+export UV_PUBLISH_USERNAME=$UV_INDEX_{{ cookiecutter.aws_codeartifact_domain | upper | replace('-', '_') }}_USERNAME
+export UV_PUBLISH_PASSWORD=$UV_INDEX_{{ cookiecutter.aws_codeartifact_domain | upper | replace('-', '_') }}_PASSWORD
 .venv/bin/python .mise/tasks/publish.py
 uv publish --publish-url "https://${AWS_CODEARTIFACT_DOMAIN}-${AWS_CODEARTIFACT_DOMAIN_OWNER}.d.codeartifact.${AWS_CODEARTIFACT_REGION}.amazonaws.com/pypi/${AWS_CODEARTIFACT_REPO}/"
 """

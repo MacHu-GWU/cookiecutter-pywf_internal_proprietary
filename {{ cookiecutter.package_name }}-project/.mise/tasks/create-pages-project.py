@@ -11,7 +11,9 @@ The project name is derived from the package name (underscores replaced with hyp
 import subprocess
 from utils import config
 
-project_name = config.readthedocs_slug  # e.g. {{ cookiecutter.package_name | slugify }}
+project_name = (
+    config.readthedocs_slug
+)  # e.g. {{ cookiecutter.package_name | slugify }}
 
 print(f"Creating Cloudflare Pages project: {project_name}")
 subprocess.run(
